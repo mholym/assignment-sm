@@ -6,13 +6,21 @@ Create SPA using given technologies. Required listing, detail and create. Work w
  - Laravel
  - Vue.js
  - Bootstrap
+ - MySQL
 
 ## Setup
 
+Install dependencies
 ```
-composer create-project laravel/laravel countries
+npm install
+```
 
-cd countries
+Compile with mix
+```
+npm run dev
+```
 
+Serve application
+```
 php artisan serve
 ```
