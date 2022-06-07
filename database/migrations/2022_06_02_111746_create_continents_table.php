@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('continents', function (Blueprint $table) {
             $table->string('code', 2)->primary()->comment('Continent code');;
             $table->string('name', 255)->nullable();
-            $table->timestamps();
         });
     }
 

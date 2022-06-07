@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CountryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/countries', [CountryController::class, 'index']);
+Route::prefix('/country')->group( function () {
+    Route::post('/store', [CountryController::class, 'store']);
+    Route::get('/{code}', [CountryController::class, 'show']);
 });

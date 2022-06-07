@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Continent;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use \Validator;
 
 class CountryController extends Controller
 {
@@ -28,8 +30,7 @@ class CountryController extends Controller
                 $query->orderBy('name', 'desc');
             }
         }
-        $countries = $query->paginate(10);
-        return view('countries.index', compact('countries', $countries));
+        return $query->paginate(10);
     }
 
     /**
@@ -38,9 +39,9 @@ class CountryController extends Controller
      * @param  \App\Models\Country $country
      * @return \Illuminate\Http\Response
      */
-    public function show(Country $country)
+    public function show(Country $country, $id)
     {
-        return view('countries.show', compact('country', $country));
+        return Country::find($id);
     }
 
     /**
@@ -62,27 +63,39 @@ class CountryController extends Controller
     public function store(Request $request)
     {
         $country_codes = [];
-        foreach (Country::all() as $country) {
+        $continent_codes = [];
+        foreach (Country::all() as $country)
             $country_codes[] = $country->code;
-        }
-        $request->validate([
-            'code' => ['required', Rule::in($country_codes)],
+        foreach (Continent::all() as $continent)
+            $continent_codes[] = $continent->code;
+
+        $rules = [
+            'code' => ['required', 'max:2', Rule::notIn($country_codes)],
             'name' => 'required|max:64',
             'full_name' => 'required|max:128',
             'iso3' => 'required|max:3',
-            'continent_code' => 'required|max:2',
-            'display_order' => 'required|numeric'
-        ]);
+            'continent_code' => ['required', 'max:2', Rule::In($continent_codes)],
+            'display_order' => 'required|numeric',
+            'number' => 'required|numeric|digits_between:1,3'
+        ];
 
-        $country = Country::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'full_name' => $request->full_name,
-            'iso3' => $request->iso3,
-            'continent_code' => $request->continent_code,
-            'display_order' => $request->display_order,
-        ]);
+        $response = array('response' => '', 'success'=>false);
+        $validator = Validator::make($request->all(), $rules);
 
-        return view('countries.show', compact('country', $country));
+        if ($validator->fails()) {
+            $response['errors'] = $validator->messages();
+        } else {
+            $country = Country::create([
+                'code' => $request->code,
+                'name' => $request->name,
+                'full_name' => $request->full_name,
+                'iso3' => $request->iso3,
+                'continent_code' => $request->continent_code,
+                'display_order' => $request->display_order,
+                'number' => $request->number
+            ]);
+            $response = array('response' => $country, 'success'=>true);
+        }
+        return $response;
     }
 }
