@@ -6,8 +6,8 @@
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-            <b-collapse id="nav-collapse" is-nav>
-                <add-country-form class="nav-link"></add-country-form>
+            <b-collapse id="nav-collapse" class="text-white" is-nav>
+                Placeholder link
             </b-collapse>
         </b-navbar>
     </div>
@@ -30,6 +30,5 @@ export default {
 }
 .nav-link:hover {
     opacity: 0.8;
-
 }
 </style>

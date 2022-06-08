@@ -19,7 +19,7 @@ class CountryController extends Controller
     {
         $query = Country::query();
         if ($request->q) {
-            $children = Continent::query()->where('name', 'ILIKE', '%'.$request->q.'%')->get(['code']);
+            $children = Continent::query()->where('name', 'LIKE', $request->q.'%')->get(['code']);
             $query->whereIn('continent_code', $children);
         }
         if ($request->sort) {

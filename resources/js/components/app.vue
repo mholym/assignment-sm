@@ -1,23 +1,19 @@
 <template>
     <div>
         <main-nav/>
-        <h1 class="main-text">Countries List</h1>
         <div class="view-container">
-            Table
+            <index-view></index-view>
         </div>
     </div>
 </template>
 
 <script>
 import MainNav from "./navigation/MainNav.vue";
-import AddCountryForm from "./forms/AddCountryForm.vue";
+import IndexView from "./views/IndexView.vue";
 
 export default {
     name: "App",
-    components: { MainNav },
-    mounted() {
-        console.log('Component mounted.')
-    }
+    components: { MainNav, IndexView },
 }
 </script>
 
@@ -25,9 +21,6 @@ export default {
 .view-container {
     margin: auto;
     max-width: 1400px;
-    padding: 5px 0px 0px 10px;
-}
-.main-text {
     padding: 5px 0px 0px 10px;
 }
 </style>

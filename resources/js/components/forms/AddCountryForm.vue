@@ -1,10 +1,11 @@
 <template>
     <div>
-        <b-button v-b-modal.modal-prevent-closing class="btn-light">Add Country</b-button>
+        <b-button v-b-modal.modal-prevent-closing class="btn-add float-end">Add Country</b-button>
         <b-modal
             id="modal-prevent-closing"
             ref="modal"
             title="Add new country"
+            hide-backdrop
         >
             <b-form ref="form" @submit.stop.prevent="onSubmit" @reset="onReset" v-if="show">
                 <b-form-group
@@ -164,6 +165,7 @@
                         this.$nextTick(() => {
                             this.$bvModal.hide('modal-prevent-closing')
                         })
+                        this.$emit('reloadindex');
                     } else {
                         this.errors = response.data.errors
                     }
@@ -194,5 +196,8 @@
 </script>
 
 <style scoped>
-
+.btn-add {
+    border-color: #0d6efd !important;
+    background-color: #0d6efd !important;
+}
 </style>
