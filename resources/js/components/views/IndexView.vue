@@ -88,7 +88,6 @@ export default {
     },
     methods: {
         getIndex() {
-            console.log('start')
             axios.get('api/countries', {
                 params: {
                     sort: this.sort,
@@ -103,7 +102,6 @@ export default {
                 .catch( error => {
                     console.log(error)
                 })
-            console.log('koniec')
         },
         pageUp() {
             this.items.current_page = this.items.current_page + 1
